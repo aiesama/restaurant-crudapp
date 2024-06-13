@@ -1,25 +1,135 @@
 .Top {
+  overflow: hidden;
+  background-color: #adbbda;
+  padding: 20px 10px;
+  font-weight: bold;
+  font-size: 25px;
   text-align: center;
-  background-color: burlywood;
-  justify-content: center;
-  align-items: center;
+}
+
+.Top-Label {
+  color: black;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.Body {
+  overflow: hidden;
+  background-color: #adbbda;
+  padding: 20px 10px;
+}
+
+.Body-Label {
+  color: black;
+  font-weight: bold;
+  font-size: 20px;
+  margin-right: 5%;
+}
+
+.Button {
+  padding: 10px 10px;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #3d52a0;
+  border: none;
+  border-radius: 15px;
+}
+
+.Button:hover {
+  background-color: #182040;
+}
+
+.Button:active {
+  background-color: black;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
 }
 
 .App {
-  text-align: center;
-  background-color: bisque;
-  justify-content: center;
-  align-items: center;
+  text-align: left;
+  background-color: #8697c4;
+  padding: 15px;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 3px solid #8697c4;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(odd) {
+  background-color: #8697c4;
 }
 
 .Input {
   position: relative;
   width: 100%;
+  padding: 5px;
+  color: black;
+  font-size: 15px;
+  font-weight: bold;
+  max-width: 100%;
+  margin: auto;
 }
 
 .Input-Text {
-  margin-left: 0.5%;
-  color: #000000;
+  padding: 5px;
+  color: black;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.Input-Label {
+  color: black;
+  display: inline-block;
+  width: 100%;
+}
+
+.Update {
+  position: relative;
+  width: 100%;
+  padding: 5px;
+  color: black;
+  font-size: 15px;
+  font-weight: bold;
+  max-width: 100%;
+  margin: auto;
+}
+
+.Update-Text {
+  padding: 5px;
+  color: black;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.Update-Label {
+  color: black;
+  display: inline-block;
+  width: 100%;
+}
+
+.All-Input-Area {
+  align-items: center;
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
+.All-Update-Area {
+  align-items: center;
+  margin-left: 15%;
+  margin-right: 15%;
+  text-align: left;
 }
 
 .App-logo {
