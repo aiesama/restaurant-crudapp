@@ -1,82 +1,183 @@
 .Top {
   overflow: hidden;
-  background-color: #adbbda;
-  padding: 20px 10px;
+  padding: 10px;
   font-weight: bold;
-  font-size: 25px;
-  text-align: center;
+  text-align: left;
+  background-color: #070f2b;
+  display: flex;
+  align-items: center;
 }
 
 .Top-Label {
-  color: black;
+  color: white;
   font-weight: bold;
   font-size: 25px;
+  font-family: Garamond, serif;
+  margin-left: 0.5rem;
 }
 
 .Body {
   overflow: hidden;
-  background-color: #adbbda;
-  padding: 20px 10px;
+  padding: 10px 10px;
 }
 
-.Body-Label {
+.Button-For-Submit {
+  padding: 10px 10px;
+  font-size: 15px;
+  cursor: pointer;
+  outline: none;
   color: black;
-  font-weight: bold;
-  font-size: 20px;
-  margin-right: 5%;
+  background-color: #9290c3;
+  border: none;
+  border-radius: 15px;
+  font-family: "Times New Roman", Times, serif;
+  align-self: end;
+  width: 5rem;
+}
+
+.Close-Button {
+  height: 1.5rem;
+  width: 1.5rem;
+  background-color: white;
+  cursor: pointer;
+  align-self: end;
+}
+
+.Button-Update-Submit {
+  padding: 10px 10px;
+  font-size: 15px;
+  cursor: pointer;
+  outline: none;
+  color: black;
+  background-color: #9290c3;
+  border: none;
+  border-radius: 15px;
+  font-family: "Times New Roman", Times, serif;
+  align-self: center;
+  width: 5rem;
+  justify-self: center;
+}
+
+.Pagination {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  gap: 3;
+  justify-content: center;
+}
+
+.PaginationCN {
+  cursor: pointer;
+  padding: 1.5rem;
+}
+
+.Pagination a {
+  color: WHITE;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.Pagination .active {
+  background-color: #070f2b;
+  color: white;
+  border-radius: 5px;
+}
+
+.Pagination a:hover:not(.active) {
+  background-color: #9290c3;
+  border-radius: 5px;
 }
 
 .Button {
   padding: 10px 10px;
   font-size: 15px;
-  text-align: center;
   cursor: pointer;
   outline: none;
-  color: #fff;
-  background-color: #3d52a0;
+  color: black;
+  background-color: #9290c3;
   border: none;
   border-radius: 15px;
+  font-family: "Times New Roman", Times, serif;
 }
 
 .Button:hover {
   background-color: #182040;
+  color: white;
 }
 
 .Button:active {
   background-color: black;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
+  transform: translateY(2px);
 }
 
 .App {
   text-align: left;
-  background-color: #8697c4;
-  padding: 15px;
+  background-color: gray;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.App-Update {
+  background-color: #070f2b96;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Table-Area {
+  align-items: center;
+  margin-left: 15%;
+  margin-right: 15%;
+  padding: 10px;
+  border: 3px outset #070f2b;
+  border-radius: 20px;
+  overflow-x: auto;
+  background-color: gray;
 }
 
 table {
   border-collapse: collapse;
   border-spacing: 0;
   width: 100%;
-  border: 3px solid #8697c4;
+  height: 100%;
+  color: black;
 }
 
-th,
+th {
+  color: black;
+  font-weight: bold;
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  text-align: center;
+}
+
 td {
-  text-align: left;
-  padding: 8px;
+  text-align: center;
+  padding: 3px;
+  font-size: 15px;
 }
 
 tr:nth-child(odd) {
-  background-color: #8697c4;
+  background-color: white;
+  height: 5%;
 }
 
 .Input {
   position: relative;
   width: 100%;
   padding: 5px;
-  color: black;
-  font-size: 15px;
+  color: white;
   font-weight: bold;
   max-width: 100%;
   margin: auto;
@@ -93,17 +194,20 @@ tr:nth-child(odd) {
   color: black;
   display: inline-block;
   width: 100%;
+  font-size: 17px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .Update {
   position: relative;
   width: 100%;
-  padding: 5px;
   color: black;
   font-size: 15px;
   font-weight: bold;
   max-width: 100%;
   margin: auto;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .Update-Text {
@@ -114,22 +218,27 @@ tr:nth-child(odd) {
 }
 
 .Update-Label {
-  color: black;
+  color: white;
   display: inline-block;
   width: 100%;
+  font-size: 17px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .All-Input-Area {
-  align-items: center;
+  display: flex;
+  flex-direction: column;
   margin-left: 15%;
   margin-right: 15%;
+  padding: 15px;
 }
 
 .All-Update-Area {
-  align-items: center;
-  margin-left: 15%;
-  margin-right: 15%;
-  text-align: left;
+  padding: 15px;
+  background-color: #070f2b;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .App-logo {
@@ -151,13 +260,16 @@ tr:nth-child(odd) {
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: black;
 }
 
 .App-link {
   color: #61dafb;
 }
 
+body {
+  background-color: gray;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

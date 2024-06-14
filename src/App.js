@@ -4,6 +4,13 @@ import { db } from "./firebase";
 import { uid } from "uid";
 import { set, ref, onValue, remove } from "firebase/database";
 import { useState, useEffect } from "react";
+import logo from "./images/logo.png";
+import ReactPaginate from "react-paginate";
+import {
+  MdKeyboardDoubleArrowLeft,
+  MdKeyboardDoubleArrowRight,
+} from "react-icons/md";
+import { AiFillCloseSquare } from "react-icons/ai";
 
 function App() {
   const [inputvalue, setInputValue] = useState({
@@ -18,19 +25,41 @@ function App() {
   const [readvalue, setReadValue] = useState([]);
   const [magic, setMagic] = useState(null);
 
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 5;
+
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = readvalue.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(readvalue.length / itemsPerPage);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % readvalue.length;
+    setItemOffset(newOffset);
+  };
+
   //Create
   const writeToDatabase = () => {
     const ID = uid();
-
-    set(ref(db, `/Collection/${ID}`), {
-      category: inputvalue.category,
-      name: inputvalue.name,
-      size: inputvalue.size,
-      price: inputvalue.price,
-      cost: inputvalue.cost,
-      amountinstock: inputvalue.amountinstock,
-      ID,
-    });
+    if (
+      inputvalue.category.trim() == "" ||
+      inputvalue.name.trim() == "" ||
+      inputvalue.size.trim() == "" ||
+      inputvalue.price.trim() == "" ||
+      inputvalue.cost.trim() == "" ||
+      inputvalue.amountinstock.trim() == ""
+    ) {
+      alert("Please fill all fields");
+    } else {
+      set(ref(db, `/Collection/${ID}`), {
+        category: inputvalue.category,
+        name: inputvalue.name,
+        size: inputvalue.size,
+        price: inputvalue.price,
+        cost: inputvalue.cost,
+        amountinstock: inputvalue.amountinstock,
+        ID,
+      });
+    }
   };
 
   //Read
@@ -73,13 +102,14 @@ function App() {
       <div className="App">
         {/* header */}
         <div className="Top">
-          <label className="Top-Label">RESTAURANT CRUD SYSTEM</label>
+          <img src={logo} width="100px" />
+          <label className="Top-Label"> Simple UTAK Test </label>
         </div>
 
-        {/* body */}
-        <div className="App">
+        {/**************************************** body **************************************/}
+        <div className="Body">
           <div className="All-Input-Area">
-            {/* category text input */}
+            {/************************************** category text input **************************************/}
             <div className="Input">
               <label className="Input-Label">Category:</label>
               <input
@@ -92,7 +122,7 @@ function App() {
               />
             </div>
 
-            {/* name text input */}
+            {/************************************** name text input **************************************/}
             <div className="Input">
               <label className="Input-Label">Name:</label>
               <input
@@ -105,10 +135,11 @@ function App() {
               />
             </div>
 
-            {/* size choose input */}
+            {/************************************** size choose input **************************************/}
             <div className="Input">
               <label className="Input-Label">Size:</label>
               <select
+                required
                 onChange={(e) =>
                   setInputValue({ ...inputvalue, size: e.target.value })
                 }
@@ -121,7 +152,7 @@ function App() {
               </select>
             </div>
 
-            {/* price input */}
+            {/************************************** price input **************************************/}
             <div className="Input">
               <label className="Input-Label">Price:</label>
               <input
@@ -134,7 +165,7 @@ function App() {
               />
             </div>
 
-            {/* cost input */}
+            {/************************************** cost input **************************************/}
             <div className="Input">
               <label className="Input-Label">Cost:</label>
               <input
@@ -147,7 +178,7 @@ function App() {
               />
             </div>
 
-            {/* amount in stock input */}
+            {/************************************** amount in stock input **************************************/}
             <div className="Input">
               <label className="Input-Label">Amount in Stock:</label>
               <input
@@ -162,17 +193,16 @@ function App() {
                 }
               />
             </div>
-
-            <button className="Button" onClick={writeToDatabase}>
+            <button className="Button-For-Submit" onClick={writeToDatabase}>
               {" "}
               Submit{" "}
             </button>
           </div>
         </div>
 
-        {/* Get Data from Firebase */}
-        <div className="Body">
-          <div className="All-Input-Area">
+        {/************************************** Get Data from Firebase **************************************/}
+        <div>
+          <div className="Table-Area">
             <table>
               <th>Category</th>
               <th>Name</th>
@@ -181,7 +211,7 @@ function App() {
               <th>Cost</th>
               <th>Amount in Stock</th>
 
-              {readvalue?.map((data) => (
+              {currentItems?.map((data) => (
                 <tr>
                   <td>{data.category}</td>
                   <td>{data.name}</td>
@@ -218,16 +248,29 @@ function App() {
                 </tr>
               ))}
             </table>
+            <ReactPaginate
+              containerClassName="Pagination"
+              pageLinkClassName="PaginationCN"
+              breakLabel="..."
+              nextLabel={<MdKeyboardDoubleArrowRight />}
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={3}
+              pageCount={pageCount}
+              previousLabel={<MdKeyboardDoubleArrowLeft />}
+              renderOnZeroPageCount={null}
+              activeLinkClassName="active"
+            />
           </div>
         </div>
 
-        {/* For Data Update */}
+        {/************************************** For Data Update **************************************/}
         {magic && (
-          <div className="App">
+          <div className="App-Update">
             <div className="All-Update-Area">
-              <button className="Button" onClick={() => setMagic(null)}>
-                Close
-              </button>
+              <AiFillCloseSquare
+                onClick={() => setMagic(null)}
+                className="Close-Button"
+              />
 
               <div className="Update">
                 <label className="Update-Label">Category</label>
@@ -300,11 +343,10 @@ function App() {
               </div>
 
               <button
-                className="Button"
+                className="Button-Update-Submit"
                 onClick={() => updateToDatabase(magic)}
               >
-                {" "}
-                Update{" "}
+                Update
               </button>
             </div>
           </div>
