@@ -46,14 +46,16 @@ function App() {
   const writeToDatabase = () => {
     const ID = uid();
     if (
-      inputvalue.category.trim() == "" ||
-      inputvalue.name.trim() == "" ||
-      inputvalue.size.trim() == "" ||
-      inputvalue.price.trim() == "" ||
-      inputvalue.cost.trim() == "" ||
-      inputvalue.amountinstock.trim() == ""
+      inputvalue.category.trim() === "" ||
+      inputvalue.name.trim() === "" ||
+      inputvalue.size.trim() === "" ||
+      inputvalue.price.trim() === "" ||
+      inputvalue.cost.trim() === "" ||
+      inputvalue.amountinstock.trim() === ""
     ) {
-      alert("Please fill all fields");
+      alert(
+        "Please fill out all fields completely before submitting your entry."
+      );
     } else {
       set(ref(db, `/Collection/${ID}`), {
         category: inputvalue.category,
@@ -330,7 +332,7 @@ function App() {
               <div className="Update">
                 <label className="Update-Label">Price</label>
                 <input
-                  type="text"
+                  type="number"
                   className="Update-Text"
                   value={updatevalue.price}
                   onChange={(e) =>
@@ -343,7 +345,7 @@ function App() {
               <div className="Update">
                 <label className="Update-Label">Cost</label>
                 <input
-                  type="text"
+                  type="number"
                   className="Update-Text"
                   value={updatevalue.cost}
                   onChange={(e) =>
@@ -356,7 +358,7 @@ function App() {
               <div className="Update">
                 <label className="Update-Label">Amount in Stock</label>
                 <input
-                  type="text"
+                  type="number"
                   className="Update-Text"
                   value={updatevalue.amountinstock}
                   onChange={(e) =>
@@ -367,7 +369,7 @@ function App() {
                   }
                 />
               </div>
-              {/* update the specific record  */}
+              {/* update the specific record */}
               <button
                 className="Button-Update-Submit"
                 onClick={() => updateToDatabase(updatevalue)}
