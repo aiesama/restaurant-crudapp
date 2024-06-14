@@ -35,12 +35,32 @@
   width: 5rem;
 }
 
+.Button-For-Submit:hover {
+  background-color: #182040;
+  color: white;
+}
+
+.Button-For-Submit:active {
+  background-color: black;
+  transform: translateY(2px);
+}
+
 .Close-Button {
   height: 1.5rem;
   width: 1.5rem;
   background-color: white;
   cursor: pointer;
   align-self: end;
+}
+
+.Close-Button:hover {
+  background-color: #1b1a55;
+  color: white;
+}
+
+.Close-Buttont:active {
+  background-color: #1b1a55;
+  transform: translateY(2px);
 }
 
 .Button-Update-Submit {
@@ -56,6 +76,17 @@
   align-self: center;
   width: 5rem;
   justify-self: center;
+}
+
+.Button-Update-Submit:hover {
+  background-color: white;
+  color: black;
+}
+
+.Button-Update-Submit:active {
+  background-color: #1b1a55;
+  color: white;
+  transform: translateY(2px);
 }
 
 .Pagination {
@@ -270,6 +301,7 @@ tr:nth-child(odd) {
 body {
   background-color: gray;
 }
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

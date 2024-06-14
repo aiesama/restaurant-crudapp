@@ -13,6 +13,7 @@ import {
 import { AiFillCloseSquare } from "react-icons/ai";
 
 function App() {
+  // For Data Entry
   const [inputvalue, setInputValue] = useState({
     category: "",
     name: "",
@@ -22,9 +23,13 @@ function App() {
     amountinstock: 0,
   });
 
+  // For Reading & Displaying of All Data
   const [readvalue, setReadValue] = useState([]);
-  const [magic, setMagic] = useState(null);
 
+  // For Updating of Specific Data
+  const [updatevalue, setUpdateValue] = useState(null);
+
+  // Pagination
   const [itemOffset, setItemOffset] = useState(0);
   const itemsPerPage = 5;
 
@@ -37,7 +42,7 @@ function App() {
     setItemOffset(newOffset);
   };
 
-  //Create
+  //CREATE
   const writeToDatabase = () => {
     const ID = uid();
     if (
@@ -62,7 +67,7 @@ function App() {
     }
   };
 
-  //Read
+  //READ
   useEffect(() => {
     onValue(ref(db, "/Collection"), (snapshot) => {
       setReadValue([]);
@@ -75,32 +80,32 @@ function App() {
     });
   }, []);
 
-  //Update
+  //UPDATE
   const updateToDatabase = () => {
-    set(ref(db, `/Collection/${magic.ID}`), {
-      category: magic.category,
-      name: magic.name,
-      size: magic.size,
-      price: magic.price,
-      cost: magic.cost,
-      amountinstock: magic.amountinstock,
-      ID: magic.ID,
+    set(ref(db, `/Collection/${updatevalue.ID}`), {
+      category: updatevalue.category,
+      name: updatevalue.name,
+      size: updatevalue.size,
+      price: updatevalue.price,
+      cost: updatevalue.cost,
+      amountinstock: updatevalue.amountinstock,
+      ID: updatevalue.ID,
     });
-    setMagic(null);
+    setUpdateValue(null);
   };
 
-  //Delete
+  //DELETE
   const handleDelete = (ID) => {
     remove(ref(db, `/Collection/${ID}`));
   };
 
   //console.log(inputvalue);
-  console.log(readvalue);
+  //console.log(readvalue);
 
   return (
     <React.Fragment>
       <div className="App">
-        {/* header */}
+        {/**************************************** header ****************************************/}
         <div className="Top">
           <img src={logo} width="100px" />
           <label className="Top-Label"> Simple UTAK Test </label>
@@ -108,6 +113,7 @@ function App() {
 
         {/**************************************** body **************************************/}
         <div className="Body">
+          {/************************************** input area **************************************/}
           <div className="All-Input-Area">
             {/************************************** category text input **************************************/}
             <div className="Input">
@@ -135,7 +141,7 @@ function App() {
               />
             </div>
 
-            {/************************************** size choose input **************************************/}
+            {/************************************** size choice input **************************************/}
             <div className="Input">
               <label className="Input-Label">Size:</label>
               <select
@@ -202,8 +208,10 @@ function App() {
 
         {/************************************** Get Data from Firebase **************************************/}
         <div>
+          {/************************************** table area **************************************/}
           <div className="Table-Area">
             <table>
+              {/************************************** table header/title **************************************/}
               <th>Category</th>
               <th>Name</th>
               <th>Size</th>
@@ -211,6 +219,7 @@ function App() {
               <th>Cost</th>
               <th>Amount in Stock</th>
 
+              {/************************************** data collection from firebase **************************************/}
               {currentItems?.map((data) => (
                 <tr>
                   <td>{data.category}</td>
@@ -220,10 +229,11 @@ function App() {
                   <td>{data.cost}</td>
                   <td>{data.amountinstock}</td>
                   <td>
+                    {/* auto populate the fields according to the specific record */}
                     <button
                       className="Button"
                       onClick={() =>
-                        setMagic({
+                        setUpdateValue({
                           ID: data.ID,
                           category: data.category,
                           name: data.name,
@@ -238,6 +248,7 @@ function App() {
                     </button>
                   </td>
                   <td>
+                    {/* delete */}
                     <button
                       className="Button"
                       onClick={() => handleDelete(data.ID)}
@@ -248,6 +259,7 @@ function App() {
                 </tr>
               ))}
             </table>
+            {/* pagination */}
             <ReactPaginate
               containerClassName="Pagination"
               pageLinkClassName="PaginationCN"
@@ -264,42 +276,48 @@ function App() {
         </div>
 
         {/************************************** For Data Update **************************************/}
-        {magic && (
+        {updatevalue && (
           <div className="App-Update">
             <div className="All-Update-Area">
               <AiFillCloseSquare
-                onClick={() => setMagic(null)}
+                onClick={() => setUpdateValue(null)}
                 className="Close-Button"
               />
-
+              {/************* updating of specific category input *************/}
               <div className="Update">
                 <label className="Update-Label">Category</label>
                 <input
                   type="text"
                   className="Update-Text"
-                  value={magic.category}
+                  value={updatevalue.category}
                   onChange={(e) =>
-                    setMagic({ ...magic, category: e.target.value })
+                    setUpdateValue({ ...updatevalue, category: e.target.value })
                   }
                 />
               </div>
 
+              {/************* updating of specific name input *************/}
               <div className="Update">
                 <label className="Update-Label">Name</label>
                 <input
                   type="text"
                   className="Update-Text"
-                  value={magic.name}
-                  onChange={(e) => setMagic({ ...magic, name: e.target.value })}
+                  value={updatevalue.name}
+                  onChange={(e) =>
+                    setUpdateValue({ ...updatevalue, name: e.target.value })
+                  }
                 />
               </div>
 
+              {/************* updating of specific size input *************/}
               <div className="Update">
                 <label className="Update-Label">Size</label>
                 <select
                   className="Update-Text"
-                  value={magic.size}
-                  onChange={(e) => setMagic({ ...magic, size: e.target.value })}
+                  value={updatevalue.size}
+                  onChange={(e) =>
+                    setUpdateValue({ ...updatevalue, size: e.target.value })
+                  }
                 >
                   <option> N/A </option>
                   <option> Small </option>
@@ -308,43 +326,51 @@ function App() {
                 </select>
               </div>
 
+              {/************* updating of specific price input *************/}
               <div className="Update">
                 <label className="Update-Label">Price</label>
                 <input
                   type="text"
                   className="Update-Text"
-                  value={magic.price}
+                  value={updatevalue.price}
                   onChange={(e) =>
-                    setMagic({ ...magic, price: e.target.value })
+                    setUpdateValue({ ...updatevalue, price: e.target.value })
                   }
                 />
               </div>
 
+              {/************* updating of specific cost input *************/}
               <div className="Update">
                 <label className="Update-Label">Cost</label>
                 <input
                   type="text"
                   className="Update-Text"
-                  value={magic.cost}
-                  onChange={(e) => setMagic({ ...magic, cost: e.target.value })}
+                  value={updatevalue.cost}
+                  onChange={(e) =>
+                    setUpdateValue({ ...updatevalue, cost: e.target.value })
+                  }
                 />
               </div>
 
+              {/************* updating of specific amount in stock input *************/}
               <div className="Update">
                 <label className="Update-Label">Amount in Stock</label>
                 <input
                   type="text"
                   className="Update-Text"
-                  value={magic.amountinstock}
+                  value={updatevalue.amountinstock}
                   onChange={(e) =>
-                    setMagic({ ...magic, amountinstock: e.target.value })
+                    setUpdateValue({
+                      ...updatevalue,
+                      amountinstock: e.target.value,
+                    })
                   }
                 />
               </div>
-
+              {/* update the specific record  */}
               <button
                 className="Button-Update-Submit"
-                onClick={() => updateToDatabase(magic)}
+                onClick={() => updateToDatabase(updatevalue)}
               >
                 Update
               </button>
