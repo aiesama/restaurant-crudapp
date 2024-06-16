@@ -48,10 +48,7 @@ function App() {
     if (
       inputvalue.category.trim() === "" ||
       inputvalue.name.trim() === "" ||
-      inputvalue.size.trim() === "" ||
-      inputvalue.price.trim() === "" ||
-      inputvalue.cost.trim() === "" ||
-      inputvalue.amountinstock.trim() === ""
+      inputvalue.size.trim() === ""
     ) {
       alert(
         "Please fill out all fields completely before submitting your entry."
@@ -65,6 +62,14 @@ function App() {
         cost: inputvalue.cost,
         amountinstock: inputvalue.amountinstock,
         ID,
+      });
+      setInputValue({
+        category: "",
+        name: "",
+        size: "N/A",
+        price: 0,
+        cost: 0,
+        amountinstock: 0,
       });
     }
   };
@@ -104,6 +109,24 @@ function App() {
   //console.log(inputvalue);
   //console.log(readvalue);
 
+  let totalPrice = readvalue.reduce(
+    (prev, curr) => parseFloat(prev) + parseFloat(curr.price),
+    0
+  );
+  //console.log(totalPrice);
+
+  let totalCost = readvalue.reduce(
+    (prev, curr) => parseFloat(prev) + parseFloat(curr.cost),
+    0
+  );
+  //console.log(totalPrice);
+
+  let totalAmountInStock = readvalue.reduce(
+    (prev, curr) => parseInt(prev) + parseInt(curr.amountinstock),
+    0
+  );
+  //console.log(totalPrice);
+
   return (
     <React.Fragment>
       <div className="App">
@@ -124,6 +147,7 @@ function App() {
                 required
                 type="text"
                 className="Input-Text"
+                value={inputvalue.category}
                 onChange={(e) =>
                   setInputValue({ ...inputvalue, category: e.target.value })
                 }
@@ -137,6 +161,7 @@ function App() {
                 required
                 type="text"
                 className="Input-Text"
+                value={inputvalue.name}
                 onChange={(e) =>
                   setInputValue({ ...inputvalue, name: e.target.value })
                 }
@@ -148,6 +173,7 @@ function App() {
               <label className="Input-Label">Size:</label>
               <select
                 required
+                value={inputvalue.size}
                 onChange={(e) =>
                   setInputValue({ ...inputvalue, size: e.target.value })
                 }
@@ -166,6 +192,7 @@ function App() {
               <input
                 required
                 type="number"
+                value={inputvalue.price}
                 className="Input-Text"
                 onChange={(e) =>
                   setInputValue({ ...inputvalue, price: e.target.value })
@@ -179,6 +206,7 @@ function App() {
               <input
                 required
                 type="number"
+                value={inputvalue.cost}
                 className="Input-Text"
                 onChange={(e) =>
                   setInputValue({ ...inputvalue, cost: e.target.value })
@@ -192,7 +220,9 @@ function App() {
               <input
                 required
                 type="number"
+                onKeyDown={(e) => e.key === "." && e.preventDefault()}
                 className="Input-Text"
+                value={inputvalue.amountinstock}
                 onChange={(e) =>
                   setInputValue({
                     ...inputvalue,
@@ -201,7 +231,10 @@ function App() {
                 }
               />
             </div>
-            <button className="Button-For-Submit" onClick={writeToDatabase}>
+            <button
+              className="Button-For-Submit"
+              onClick={() => writeToDatabase()}
+            >
               {" "}
               Submit{" "}
             </button>
@@ -361,6 +394,7 @@ function App() {
                   type="number"
                   className="Update-Text"
                   value={updatevalue.amountinstock}
+                  onKeyDown={(e) => e.key === "." && e.preventDefault()}
                   onChange={(e) =>
                     setUpdateValue({
                       ...updatevalue,
@@ -379,6 +413,27 @@ function App() {
             </div>
           </div>
         )}
+        {/* calculation of total */}
+        <div className="Body">
+          {/************************************* total area **************************************/}
+          <div className="All-Input-Area">
+            {/************************************** total price **************************************/}
+            <div className="Total">
+              <span className="Total-Label">Total Price: </span>
+              <span className="Total-Value"> {totalPrice ?? 0} </span>
+            </div>
+
+            <div className="Total">
+              <span className="Total-Label">Total Cost: </span>
+              <span className="Total-Value">{totalCost ?? 0} </span>
+            </div>
+
+            <div className="Total">
+              <span className="Total-Label">Total Amount in Stock: </span>
+              <span className="Total-Value"> {totalAmountInStock ?? 0} </span>
+            </div>
+          </div>
+        </div>
       </div>
     </React.Fragment>
   );
