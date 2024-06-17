@@ -5,7 +5,7 @@ import { uid } from "uid";
 import { set, ref, onValue, remove } from "firebase/database";
 import { useState, useEffect } from "react";
 import logo from "./images/logo.png";
-import { AiFillCloseSquare, AiFillPlusCircle } from "react-icons/ai";
+import { AiFillCloseSquare, AiFillPlusSquare } from "react-icons/ai";
 // import ReactPaginate from "react-paginate";
 // import {
 //   MdKeyboardDoubleArrowLeft,
@@ -113,6 +113,7 @@ function App() {
   //console.log(inputvalue);
   //console.log(readvalue);
 
+  // to show only the unique categories on the list //
   let unique_array = () => {
     let unique_values = [
       ...new Set(readvalue.map((element) => element.category)),
@@ -121,23 +122,20 @@ function App() {
   };
 
   //console.log(unique_array());
-
-  let totalPrice = readvalue.reduce(
-    (prev, curr) => parseFloat(prev) + parseFloat(curr.price),
-    0
-  );
-  //console.log(totalPrice);
-
-  let totalCost = readvalue.reduce(
-    (prev, curr) => parseFloat(prev) + parseFloat(curr.cost),
-    0
-  );
-  //console.log(totalPrice);
-
-  let totalAmountInStock = readvalue.reduce(
-    (prev, curr) => parseInt(prev) + parseInt(curr.amountinstock),
-    0
-  );
+  // let totalPrice = readvalue.reduce(
+  //   (prev, curr) => parseFloat(prev) + parseFloat(curr.price),
+  //   0
+  // );
+  // //console.log(totalPrice);
+  // let totalCost = readvalue.reduce(
+  //   (prev, curr) => parseFloat(prev) + parseFloat(curr.cost),
+  //   0
+  // );
+  // //console.log(totalPrice);
+  // let totalAmountInStock = readvalue.reduce(
+  //   (prev, curr) => parseInt(prev) + parseInt(curr.amountinstock),
+  //   0
+  // );
   //console.log(totalPrice);
 
   return (
@@ -185,7 +183,10 @@ function App() {
               {/************************************** name text input **************************************/}
               <div className="Add-SubDetails">
                 <AiFillCloseSquare
-                  onClick={() => setAddValue(false)}
+                  onClick={() => {
+                    setAddValue(false);
+                    setInputValue({ ...inputvalue, category: "" });
+                  }}
                   className="Close-Button-ForAdd"
                 />
                 <div className="Update">
@@ -282,12 +283,12 @@ function App() {
               <>
                 <div className="Read-Area-Label">
                   <span>{data}</span>
-                  <AiFillPlusCircle
+                  <AiFillPlusSquare
                     onClick={() => {
                       setAddValue(true);
                       setInputValue({ ...inputvalue, category: data });
                     }}
-                    className="Close-Button"
+                    className="Add-For-SubDetails"
                   />
                 </div>
                 <div>
@@ -295,11 +296,11 @@ function App() {
                     .filter((fil) => fil.category == data)
                     .map((subdata) => (
                       <div className="Read-Area-Sub">
-                        <p>{subdata.name}</p>
-                        <p>{subdata.size}</p>
-                        <p>{subdata.price}</p>
-                        <p>{subdata.cost}</p>
-                        <p>{subdata.amountinstock}</p>
+                        <p className="SubData">{subdata.name}</p>
+                        <p className="SubData">{subdata.size}</p>
+                        <p className="SubData">{subdata.price}</p>
+                        <p className="SubData">{subdata.cost}</p>
+                        <p className="SubData">{subdata.amountinstock}</p>
 
                         <button
                           className="Button-For-Submit"
@@ -447,12 +448,10 @@ function App() {
               <span className="Total-Label">Total Price: </span>
               <span className="Total-Value"> {totalPrice ?? 0} </span>
             </div>
-
             <div className="Total">
               <span className="Total-LabAel">Total Cost: </span>
               <span className="Total-Value">{totalCost ?? 0} </span>
             </div>
-
             <div className="Total">
               <span className="Total-Label">Total Amount in Stock: </span>
               <span className="Total-Value"> {totalAmountInStock ?? 0} </span>
