@@ -16,6 +16,13 @@
   margin-left: 0.5rem;
 }
 
+.Divider {
+  overflow: hidden;
+  padding: 2px;
+  background-color: #070f2b;
+  display: flex;
+}
+
 .Body {
   overflow: hidden;
   padding: 10px 10px;
@@ -209,7 +216,7 @@
 
 .App {
   text-align: left;
-  background-color: gray;
+  background-color: rgba(227, 227, 227, 0.941);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -232,26 +239,28 @@
 
 .Read-Area {
   align-items: center;
-  margin-left: 15%;
-  margin-right: 15%;
-  padding: 10px;
-  border: 3px outset #070f2b;
-  border-radius: 20px;
+  margin-left: 10%;
+  margin-right: 10%;
+  padding: 25px;
   overflow-x: auto;
-  background-color: gray;
+  background-color: #9290c3;
+  border-radius: 25px;
 }
 
 .Read-Area-Label {
-  background-color: white;
+  background-color: #070f2b;
   display: flex;
   justify-content: space-between;
-  padding-left: 2px;
-  padding-right: 2px;
+  padding: 3px;
+  color: white;
+  font-size: 17px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
 }
 
 .Read-Area-Sub {
   display: grid;
-  background-color: gray;
+  background-color: rgba(227, 227, 227, 0.941);
   padding: 5px;
   grid-template-columns: repeat(7, minmax(0, 1fr));
 }

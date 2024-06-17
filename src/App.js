@@ -5,12 +5,12 @@ import { uid } from "uid";
 import { set, ref, onValue, remove } from "firebase/database";
 import { useState, useEffect } from "react";
 import logo from "./images/logo.png";
-import ReactPaginate from "react-paginate";
-import {
-  MdKeyboardDoubleArrowLeft,
-  MdKeyboardDoubleArrowRight,
-} from "react-icons/md";
 import { AiFillCloseSquare, AiFillPlusCircle } from "react-icons/ai";
+// import ReactPaginate from "react-paginate";
+// import {
+//   MdKeyboardDoubleArrowLeft,
+//   MdKeyboardDoubleArrowRight,
+// } from "react-icons/md";
 
 function App() {
   // For Data Entry
@@ -29,20 +29,21 @@ function App() {
   // For Updating of Specific Data
   const [updatevalue, setUpdateValue] = useState(null);
 
+  // For Adding values for the sub fields under the Category
   const [addvalue, setAddValue] = useState(false);
 
   // Pagination
-  const [itemOffset, setItemOffset] = useState(0);
-  const itemsPerPage = 5;
+  // const [itemOffset, setItemOffset] = useState(0);
+  // const itemsPerPage = 5;
 
-  const endOffset = itemOffset + itemsPerPage;
-  const currentItems = readvalue.slice(itemOffset, endOffset);
-  const pageCount = Math.ceil(readvalue.length / itemsPerPage);
+  // const endOffset = itemOffset + itemsPerPage;
+  // const currentItems = readvalue.slice(itemOffset, endOffset);
+  // const pageCount = Math.ceil(readvalue.length / itemsPerPage);
 
-  const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % readvalue.length;
-    setItemOffset(newOffset);
-  };
+  // const handlePageClick = (event) => {
+  //   const newOffset = (event.selected * itemsPerPage) % readvalue.length;
+  //   setItemOffset(newOffset);
+  // };
 
   //CREATE
   const writeToDatabase = () => {
@@ -110,7 +111,7 @@ function App() {
   };
 
   //console.log(inputvalue);
-  console.log(readvalue);
+  //console.log(readvalue);
 
   let unique_array = () => {
     let unique_values = [
@@ -119,7 +120,7 @@ function App() {
     return unique_values;
   };
 
-  console.log(unique_array());
+  //console.log(unique_array());
 
   let totalPrice = readvalue.reduce(
     (prev, curr) => parseFloat(prev) + parseFloat(curr.price),
@@ -165,6 +166,7 @@ function App() {
                 }
               />
             </div>
+            {/* add button for category */}
             {inputvalue.category != "" && (
               <button
                 className="Button-For-Add"
@@ -176,6 +178,7 @@ function App() {
           </div>
         </div>
 
+        {/************************************** sub fields under category inputs **************************************/}
         {addvalue && (
           <div className="App-Add">
             <div className="All-Add-Area">
@@ -258,6 +261,7 @@ function App() {
                   />
                 </div>
               </div>
+              {/* Submit button to record data for sub fields under Category */}
               <div className="AddSubmit-Button-Container">
                 <button
                   className="Button-For-AddSubmit"
@@ -269,11 +273,10 @@ function App() {
             </div>
           </div>
         )}
+        <div className="Divider"></div>
 
         {/************************************** Get Data from Firebase **************************************/}
         <div>
-          {/************************************** table area **************************************/}
-
           <div className="Read-Area">
             {unique_array().map((data) => (
               <>
@@ -299,7 +302,7 @@ function App() {
                         <p>{subdata.amountinstock}</p>
 
                         <button
-                          className="Button"
+                          className="Button-For-Submit"
                           onClick={() =>
                             setUpdateValue({
                               ID: subdata.ID,
@@ -316,7 +319,7 @@ function App() {
                         </button>
 
                         <button
-                          className="Button"
+                          className="Button-For-Submit"
                           onClick={() => handleDelete(subdata.ID)}
                         >
                           Delete
@@ -433,6 +436,9 @@ function App() {
             </div>
           </div>
         )}
+
+        <div className="Divider"></div>
+
         {/* calculation of total */}
         <div className="Body">
           {/************************************* total area **************************************/}
