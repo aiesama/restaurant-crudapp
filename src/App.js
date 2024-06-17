@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import "./App.css";
 import { db } from "./firebase";
 import { uid } from "uid";
@@ -10,7 +10,7 @@ import {
   MdKeyboardDoubleArrowLeft,
   MdKeyboardDoubleArrowRight,
 } from "react-icons/md";
-import { AiFillCloseSquare } from "react-icons/ai";
+import { AiFillCloseSquare, AiFillPlusCircle } from "react-icons/ai";
 
 function App() {
   // For Data Entry
@@ -28,6 +28,8 @@ function App() {
 
   // For Updating of Specific Data
   const [updatevalue, setUpdateValue] = useState(null);
+
+  const [addvalue, setAddValue] = useState(false);
 
   // Pagination
   const [itemOffset, setItemOffset] = useState(0);
@@ -71,6 +73,7 @@ function App() {
         cost: 0,
         amountinstock: 0,
       });
+      setAddValue(false);
     }
   };
 
@@ -107,7 +110,16 @@ function App() {
   };
 
   //console.log(inputvalue);
-  //console.log(readvalue);
+  console.log(readvalue);
+
+  let unique_array = () => {
+    let unique_values = [
+      ...new Set(readvalue.map((element) => element.category)),
+    ];
+    return unique_values;
+  };
+
+  console.log(unique_array());
 
   let totalPrice = readvalue.reduce(
     (prev, curr) => parseFloat(prev) + parseFloat(curr.price),
@@ -153,160 +165,167 @@ function App() {
                 }
               />
             </div>
-
-            {/************************************** name text input **************************************/}
-            <div className="Input">
-              <label className="Input-Label">Name:</label>
-              <input
-                required
-                type="text"
-                className="Input-Text"
-                value={inputvalue.name}
-                onChange={(e) =>
-                  setInputValue({ ...inputvalue, name: e.target.value })
-                }
-              />
-            </div>
-
-            {/************************************** size choice input **************************************/}
-            <div className="Input">
-              <label className="Input-Label">Size:</label>
-              <select
-                required
-                value={inputvalue.size}
-                onChange={(e) =>
-                  setInputValue({ ...inputvalue, size: e.target.value })
-                }
-                className="Input-Text"
+            {inputvalue.category != "" && (
+              <button
+                className="Button-For-Add"
+                onClick={() => setAddValue(true)}
               >
-                <option> N/A </option>
-                <option> Small </option>
-                <option> Medium </option>
-                <option> Large </option>
-              </select>
-            </div>
-
-            {/************************************** price input **************************************/}
-            <div className="Input">
-              <label className="Input-Label">Price:</label>
-              <input
-                required
-                type="number"
-                value={inputvalue.price}
-                className="Input-Text"
-                onChange={(e) =>
-                  setInputValue({ ...inputvalue, price: e.target.value })
-                }
-              />
-            </div>
-
-            {/************************************** cost input **************************************/}
-            <div className="Input">
-              <label className="Input-Label">Cost:</label>
-              <input
-                required
-                type="number"
-                value={inputvalue.cost}
-                className="Input-Text"
-                onChange={(e) =>
-                  setInputValue({ ...inputvalue, cost: e.target.value })
-                }
-              />
-            </div>
-
-            {/************************************** amount in stock input **************************************/}
-            <div className="Input">
-              <label className="Input-Label">Amount in Stock:</label>
-              <input
-                required
-                type="number"
-                onKeyDown={(e) => e.key === "." && e.preventDefault()}
-                className="Input-Text"
-                value={inputvalue.amountinstock}
-                onChange={(e) =>
-                  setInputValue({
-                    ...inputvalue,
-                    amountinstock: e.target.value,
-                  })
-                }
-              />
-            </div>
-            <button
-              className="Button-For-Submit"
-              onClick={() => writeToDatabase()}
-            >
-              {" "}
-              Submit{" "}
-            </button>
+                Add
+              </button>
+            )}
           </div>
         </div>
+
+        {addvalue && (
+          <div className="App-Add">
+            <div className="All-Add-Area">
+              {/************************************** name text input **************************************/}
+              <div className="Add-SubDetails">
+                <AiFillCloseSquare
+                  onClick={() => setAddValue(false)}
+                  className="Close-Button-ForAdd"
+                />
+                <div className="Update">
+                  <label className="Update-Label">Name:</label>
+                  <input
+                    required
+                    type="text"
+                    className="Input-Text"
+                    value={inputvalue.name}
+                    onChange={(e) =>
+                      setInputValue({ ...inputvalue, name: e.target.value })
+                    }
+                  />
+                </div>
+                {/************************************** size choice input **************************************/}
+                <div className="Add">
+                  <label className="Add-Label">Size:</label>
+                  <select
+                    required
+                    value={inputvalue.size}
+                    onChange={(e) =>
+                      setInputValue({ ...inputvalue, size: e.target.value })
+                    }
+                    className="Input-Text"
+                  >
+                    <option> N/A </option>
+                    <option> Small </option>
+                    <option> Medium </option>
+                    <option> Large </option>
+                  </select>
+                </div>
+                {/************************************** price input **************************************/}
+                <div className="Add">
+                  <label className="Add-Label">Price:</label>
+                  <input
+                    required
+                    type="number"
+                    value={inputvalue.price}
+                    className="Input-Text"
+                    onChange={(e) =>
+                      setInputValue({ ...inputvalue, price: e.target.value })
+                    }
+                  />
+                </div>
+                {/************************************** cost input **************************************/}
+                <div className="Add">
+                  <label className="Add-Label">Cost:</label>
+                  <input
+                    required
+                    type="number"
+                    value={inputvalue.cost}
+                    className="Input-Text"
+                    onChange={(e) =>
+                      setInputValue({ ...inputvalue, cost: e.target.value })
+                    }
+                  />
+                </div>
+                {/************************************** amount in stock input **************************************/}
+                <div className="Add">
+                  <label className="Add-Label">Amount in Stock:</label>
+                  <input
+                    required
+                    type="number"
+                    onKeyDown={(e) => e.key === "." && e.preventDefault()}
+                    className="Input-Text"
+                    value={inputvalue.amountinstock}
+                    onChange={(e) =>
+                      setInputValue({
+                        ...inputvalue,
+                        amountinstock: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <div className="AddSubmit-Button-Container">
+                <button
+                  className="Button-For-AddSubmit"
+                  onClick={() => writeToDatabase()}
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/************************************** Get Data from Firebase **************************************/}
         <div>
           {/************************************** table area **************************************/}
-          <div className="Table-Area">
-            <table>
-              {/************************************** table header/title **************************************/}
-              <th>Category</th>
-              <th>Name</th>
-              <th>Size</th>
-              <th>Price</th>
-              <th>Cost</th>
-              <th>Amount in Stock</th>
 
-              {/************************************** data collection from firebase **************************************/}
-              {currentItems?.map((data) => (
-                <tr>
-                  <td>{data.category}</td>
-                  <td>{data.name}</td>
-                  <td>{data.size}</td>
-                  <td>{data.price}</td>
-                  <td>{data.cost}</td>
-                  <td>{data.amountinstock}</td>
-                  <td>
-                    {/* auto populate the fields according to the specific record */}
-                    <button
-                      className="Button"
-                      onClick={() =>
-                        setUpdateValue({
-                          ID: data.ID,
-                          category: data.category,
-                          name: data.name,
-                          size: data.size,
-                          price: data.price,
-                          cost: data.cost,
-                          amountinstock: data.amountinstock,
-                        })
-                      }
-                    >
-                      Update
-                    </button>
-                  </td>
-                  <td>
-                    {/* delete */}
-                    <button
-                      className="Button"
-                      onClick={() => handleDelete(data.ID)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </table>
-            {/* pagination */}
-            <ReactPaginate
-              containerClassName="Pagination"
-              pageLinkClassName="PaginationCN"
-              breakLabel="..."
-              nextLabel={<MdKeyboardDoubleArrowRight />}
-              onPageChange={handlePageClick}
-              pageRangeDisplayed={3}
-              pageCount={pageCount}
-              previousLabel={<MdKeyboardDoubleArrowLeft />}
-              renderOnZeroPageCount={null}
-              activeLinkClassName="active"
-            />
+          <div className="Read-Area">
+            {unique_array().map((data) => (
+              <>
+                <div className="Read-Area-Label">
+                  <span>{data}</span>
+                  <AiFillPlusCircle
+                    onClick={() => {
+                      setAddValue(true);
+                      setInputValue({ ...inputvalue, category: data });
+                    }}
+                    className="Close-Button"
+                  />
+                </div>
+                <div>
+                  {readvalue
+                    .filter((fil) => fil.category == data)
+                    .map((subdata) => (
+                      <div className="Read-Area-Sub">
+                        <p>{subdata.name}</p>
+                        <p>{subdata.size}</p>
+                        <p>{subdata.price}</p>
+                        <p>{subdata.cost}</p>
+                        <p>{subdata.amountinstock}</p>
+
+                        <button
+                          className="Button"
+                          onClick={() =>
+                            setUpdateValue({
+                              ID: subdata.ID,
+                              category: subdata.category,
+                              name: subdata.name,
+                              size: subdata.size,
+                              price: subdata.price,
+                              cost: subdata.cost,
+                              amountinstock: subdata.amountinstock,
+                            })
+                          }
+                        >
+                          Update
+                        </button>
+
+                        <button
+                          className="Button"
+                          onClick={() => handleDelete(subdata.ID)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    ))}
+                </div>
+              </>
+            ))}
           </div>
         </div>
 
@@ -322,6 +341,7 @@ function App() {
               <div className="Update">
                 <label className="Update-Label">Category</label>
                 <input
+                  disabled
                   type="text"
                   className="Update-Text"
                   value={updatevalue.category}
@@ -416,15 +436,14 @@ function App() {
         {/* calculation of total */}
         <div className="Body">
           {/************************************* total area **************************************/}
-          <div className="All-Input-Area">
-            {/************************************** total price **************************************/}
+          {/* <div className="All-Input-Area">
             <div className="Total">
               <span className="Total-Label">Total Price: </span>
               <span className="Total-Value"> {totalPrice ?? 0} </span>
             </div>
 
             <div className="Total">
-              <span className="Total-Label">Total Cost: </span>
+              <span className="Total-LabAel">Total Cost: </span>
               <span className="Total-Value">{totalCost ?? 0} </span>
             </div>
 
@@ -432,7 +451,7 @@ function App() {
               <span className="Total-Label">Total Amount in Stock: </span>
               <span className="Total-Value"> {totalAmountInStock ?? 0} </span>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </React.Fragment>
