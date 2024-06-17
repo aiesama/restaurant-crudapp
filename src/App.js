@@ -165,7 +165,7 @@ function App() {
               />
             </div>
             {/* add button for category */}
-            {inputvalue.category != "" && (
+            {inputvalue.category !== "" && (
               <button
                 className="Button-For-Add"
                 onClick={() => setAddValue(true)}
@@ -293,7 +293,7 @@ function App() {
                 </div>
                 <div>
                   {readvalue
-                    .filter((fil) => fil.category == data)
+                    .filter((fil) => fil.category === data)
                     .map((subdata) => (
                       <div className="Read-Area-Sub">
                         <p className="SubData">{subdata.name}</p>

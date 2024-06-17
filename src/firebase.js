@@ -25,5 +25,3 @@ const app = initializeApp(firebaseConfig);
 //const analytics = getAnalytics(app);
 
 export const db = getDatabase(app);
-
-//THE READ & WRITE IN THE RULES OF REALTIME FIREBASE DB IS CURRENTLY OFF TO AVOID UNWANTED DATA ENTRIES TEMPORARILY [6-14-2024 11:03PM]//
